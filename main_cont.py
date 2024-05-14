@@ -6,8 +6,8 @@ from torch.nn.utils.rnn import pad_sequence
 import matplotlib.pyplot as plt
 import torch.nn.functional as F
 
-from dataset import AsrDataset
-from model import LSTM_ASR
+from dataset_cont import AsrDataset
+from model_cont import LSTM_ASR
 
 
 def collate_fn(batch):
