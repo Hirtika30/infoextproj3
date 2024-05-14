@@ -92,6 +92,9 @@ Training Loss: 2.3240373134613037
 Training Loss: 2.3259535789489747
 Training Loss: 2.3178306865692138
 
+### Test Output
+
+The file test_predictions.txt contains the test output i.e the confidence of each utterance.
 
 ## How to Run
 
