@@ -100,8 +100,8 @@ The file test_predictions.txt contains the test output i.e the confidence of eac
 
 1. **Clone the Repository**:
    ```sh
-   git clone <repository-url>
-   cd <repository-directory>
+   git clone https://github.com/Hirtika30/infoextproj3
+   
    
 2. **Place Data Files**:
 3. 
