@@ -96,6 +96,79 @@ Training Loss: 2.3178306865692138
 
 The file test_predictions.txt contains the test output i.e the confidence of each utterance.
 
+
+
+
+## Contrastive System
+
+This contrastive system aims to build an isolated-word speech recognizer using Mel-frequency cepstral coefficients (MFCCs) as features, in contrast to the primary system which used quantized spectral features. The recognizer is trained using the Connectionist Temporal Classification (CTC) objective function.
+
+## Implementation of the contrastive system
+
+### Dataset Class (`dataset.py`)
+
+This module handles loading the data from the provided files and preparing it for training. It supports MFCC feature extraction.
+
+- **Initialization**: The `AsrDataset` class initializes the dataset by loading scripts and waveform file names from the specified files. It also handles the mapping of letters to indices for input sequences.
+- **Data Loading**: The class checks if the files exist and reads them line by line, stripping any extra whitespace and ignoring title lines if present.
+- **`__len__`**: Returns the length of the waveform file list.
+- **`__getitem__`**: Retrieves the spelling of the word and the corresponding MFCC features for the given index, converting them into tensors.
+- **`compute_mfcc`**: Computes MFCC features for the waveform files listed in the provided `wav_scp` file.
+
+### Model Class (`model.py`)
+
+This module defines the neural network model for speech recognition using LSTM layers with MFCC features.
+
+- **LSTM_ASR Class**: Defines an LSTM-based model with linear layers for MFCC features.
+  - **Initialization**: Sets up the network architecture, including linear, LSTM, and fully connected layers.
+  - **Forward Pass**: Processes the input features through the linear, LSTM, and fully connected layers to generate the output.
+  - **Decode**: Decodes the output of the network into predicted word sequences by taking the most likely tokens at each time step.
+
+### Training and Testing Script (`main.py`)
+
+This module manages the training and testing process, including data loading, model initialization, and training loop. It also includes functions for decoding and computing accuracy.
+
+- **`collate_fn`**: Pads sequences to the same length for batch processing.
+- **`train`**: Trains the model using the CTC loss function. It iterates through the data loader, performs forward and backward passes, and updates the model parameters.
+- **`decode`**: Evaluates the model on the test set and generates predictions.
+- **`compute_accuracy`**: Calculates the accuracy of the model by comparing predictions with the ground truth labels.
+- **`main`**: Main function to load data, initialize the model, start the training process, and evaluate the model on the test set.
+
+## Training Results
+
+### Training Loss
+
+The training loss over 10 epochs is shown in the graph below:
+
+![Training Loss vs. Epoch](Screenshot%202024-05-13%20at%2011.06.19%20PM.png)
+
+### Loaded Data
+
+- 256 label names from `clsp.lblnames`
+- 798 scripts from `clsp.trnscr`
+- 798 features from `clsp.trnlbls`
+- 393 features from `clsp.devlbls`
+
+### Training Output
+
+Training Loss: 2.317989187836647
+Training Loss: 4.424168062210083
+Training Loss: 3.573465986251831
+Training Loss: 2.777047185897827
+Training Loss: 2.518873701095581
+Training Loss: 2.422389259338379
+Training Loss: 2.3637199783325196
+Training Loss: 2.342812442779541
+Training Loss: 2.3135535812377928
+Training Loss: 2.3489943504333497
+
+### Test Output
+
+The test output is in test_predictions_cont.txt file.
+
+
+
+
 ## How to Run
 
 1. **Clone the Repository**:
@@ -124,3 +197,4 @@ torchaudio==0.10.0
 librosa==0.8.1
 numpy==1.21.2
 matplotlib==3.4.3
+
